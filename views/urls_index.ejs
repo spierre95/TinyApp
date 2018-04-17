@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TinyApp</title>
+</head>
+<header>
+    <% include ./partials/_header.ejs %>
+</header>
+<body>
+   <ul>
+   <% Object.keys(urls) %>
+    <% for (let url in urls){%>
+    <li>
+        <%= url %> : <%= urls[url] %>
+    <%}%>
+    </li>
+  </ul>
+</body>
+</html>
