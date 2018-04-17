@@ -50,7 +50,12 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);  // debug statement to see POST parameters
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  let shortURL = generateRandomString()
+  urlDatabase[shortURL] = req.body.longURL
+  res.redirect("/urls");                  // debug statement to see POST parameters                      // Respond with 'Ok' (we will replace this)
 });
 
+app.get("/urls/urls_new", (req, res) => {
+  let longURL
+  res.redirect("/urls");
+});
