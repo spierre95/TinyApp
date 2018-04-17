@@ -2,6 +2,12 @@ var express = require("express");
 var app = express();
 var PORT = process.env.PORT || 8080; // default port 8080
 
+
+function generateRandomString() {
+ let id = Math.floor((1 + Math.random()) * 0x1000000).toString(16).substring(1);
+ return id
+}
+
 app.set("view engine", "ejs");
 
 var urlDatabase = {
@@ -42,3 +48,9 @@ app.get("/urls/:id", (req, res) => {
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.post("/urls", (req, res) => {
+  console.log(req.body);  // debug statement to see POST parameters
+  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+});
+
