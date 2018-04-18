@@ -2,7 +2,11 @@
 <html>
 <body>
 <header>
-    <% include ./partials/_header.ejs %>
+    <h1> Short Url: <%=shortURL%> </h1>
 </header>
+<form method="POST" action="/urls/<%=shortURL%>/update">
+<input id="update" type="text" name="update" placeholder = <%=longURL%> style="width: 300px">
+<input type="submit" value="Update">
+</form>
 </body>
 </html>
