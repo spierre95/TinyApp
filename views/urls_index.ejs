@@ -12,8 +12,9 @@
     <% for (let url in urls){%>
     <li>
         <%= url %> : <%= urls[url] %>
-    <%}%>
+        <form method="POST" action="/urls/<%=url%>/delete"><input type="submit" value="Delete"> </form>
     </li>
+    <%}%>
   </ul>
 </body>
 </html>
