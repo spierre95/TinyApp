@@ -39,6 +39,16 @@ function getUserByEmail(email){
   return null
 }
 
+function getUser(username){
+  for (let id in users){
+    if(users[id] === username){
+      return true
+    }
+  }
+  return null
+}
+
+
 
 var urlDatabase = {
 
@@ -116,11 +126,17 @@ app.get("/urls/new", (req, res) => {
 
 app.get("/urls/:id", (req, res) => {
   const userId = req.cookies["user_id"];
+  let loggedIn = getUser(userId)
   let templateVars = {
     shortURL: req.params.id,
     longURL: urlDatabase[req.params.id],
     user: users[userId]
   };
+  if(!userId){
+    res.send('you are not logged in')
+  }else if(!loggedIn) {
+    res.send('you don\'t have permission to visit this page')
+  }
   res.render("urls_show", templateVars);
 });
 
