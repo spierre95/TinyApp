@@ -9,14 +9,35 @@ app.use(cookieParser())
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
-
-
 function generateRandomString() {
  let id = Math.floor((1 + Math.random()) * 0x1000000).toString(16).substring(1);
  return id
 }
 
 app.set("view engine", "ejs");
+
+const users = {
+  "userRandomID": {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "dishwasher-funk"
+  }
+}
+
+function checkEmail(input){
+  for (let id in users){
+  if(users[id].email === input){
+    return true
+  }else{
+    return false
+  }
+}
+}
 
 var urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -45,6 +66,7 @@ app.get("/urls", (req, res) => {
     urls: urlDatabase,
     username: req.cookies["name"]
     };
+    console.log(users)
   res.render("urls_index",templateVars);
 });
 
@@ -87,7 +109,7 @@ app.post("/urls/:id/update", (req, res) =>{
 
 app.get("/login", (req,res) =>{
    let templateVars = {
-    username: req.cookies["name"]
+    username:req.cookies["name"]
    };
   res.render("login.ejs", templateVars);
 })
@@ -102,4 +124,28 @@ app.post("/logout", (req, res) =>{
   res.clearCookie('name');
   res.redirect("/urls")
 })
+
+app.get("/register", (req, res) =>{
+  let templateVars = {
+    username: req.cookies["name"]
+   };
+  res.render("register.ejs", templateVars);
+})
+
+app.post("/register", (req, res) =>{
+  if (!req.body.email || !req.body.password){
+    res.send('Error 400')
+  } else if (checkEmail(req.body.email)) {
+    res.send('Error 400')
+  } else {
+  let randomId = generateRandomString()
+  users[randomId] = {
+  id:randomId,
+  email:req.body.email,
+  password:req.body.password
+  }
+    res.cookie('user_id', randomId)
+    res.redirect("/urls")
+  }
+});
 
