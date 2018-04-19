@@ -7,13 +7,14 @@
     <% include ./partials/_header.ejs %>
 </header>
 <body>
+   <p><button><a href="/urls/new">New</a></button></p>
    <ul>
-   <% Object.keys(urls) %>
-    <% for (let url in urls){%>
+   <%Object.keys(urls)%>
+    <%for (let url in userUrls){%>
     <li>
-        <%= url %> : <%= urls[url] %>
-        <form method="POST" action="/urls/<%=url%>/delete"><input type="submit" value="Delete"> </form>
-        <button><a href = "/urls/<%=url%>">Edit</a></button>
+        <%= userUrls[url].shortURL %> : <%= userUrls[url].url %>
+        <button><a href = "/urls/<%=userUrls[url].shortURL%>">Edit</a></button>
+        <form method="POST" action="/urls/<%=userUrls[url].shortURL%>/delete"><button type="submit" >Delete</button></form>
     </li>
     <%}%>
   </ul>
