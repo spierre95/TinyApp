@@ -32,11 +32,36 @@ const users = {
 function checkEmail(input){
   for (let id in users){
   if(users[id].email === input){
-    return true
+    return true;
   }else{
+    return false;
+  }
+}
+}
+
+function checkEmailLogin(email){
+  for (let id in users){
+  if(users[id].email === email){
+    return users[id];
+  }else{
+    return false;
+  }
+}
+
+}
+
+function checkPasswordLogin(input){
+for (let id in users){
+  if(users[id] === checkEmailLogin(input)){
+    return true
+  } else {
     return false
   }
 }
+
+  // for (let id in users){
+  //   if(users[id].password ===  ){
+  // }
 }
 
 var urlDatabase = {
@@ -119,14 +144,19 @@ app.get("/login", (req,res) =>{
 })
 
 app.post("/login", (req, res) =>{
-  let username = req.body.username
-  res.cookie("name", username)
-  res.redirect("/urls")
+  const email = req.body.email
+   if (!req.body.email || !req.body.password){
+    res.send('Error 400, please enter email and password')
+  }else if (checkEmailLogin(email) && checkPasswordLogin(email)){
+    res.redirect("/urls")
+  }else{
+    res.send("Error 403, incorect username or password")
+  }
 })
 
 app.post("/logout", (req, res) =>{
-  res.clearCookie('user_id');
-  res.redirect("/urls")
+  res.clearCookie("user_id");
+  res.redirect("/login")
 })
 
 app.get("/register", (req, res) =>{
@@ -139,9 +169,9 @@ app.get("/register", (req, res) =>{
 
 app.post("/register", (req, res) =>{
   if (!req.body.email || !req.body.password){
-    res.send('Error 400')
+    res.send('Error 400, please enter email and password')
   } else if (checkEmail(req.body.email)) {
-    res.send('Error 400')
+    res.send('Error 400, email already exists')
   } else {
   let randomId = generateRandomString()
 

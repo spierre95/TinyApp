@@ -1,11 +1,12 @@
 <html lang="en">
   <head></head>
+  <% include partials/_header %>
   <body style="font-size:20px; padding:50px;">
-    <% include partials/_header %>
     <form action="/login" method="POST" style="margin:150px;">
-      <label for="username">Login:</label>
-      <input id="username" type="text" name="username" placeholder="username" style="width: 300px">
-      <input type="submit" value="Sign In">
+      <label for="email">Login:</label>
+      <input id="username" type="email" name="email" placeholder="your email" style="width: 300px">
+      <input id="username" type="password" name="password" placeholder="password" style="width: 300px">
+      <input type="submit" value="Log In">
     </form>
   </body>
 </html>
