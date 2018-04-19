@@ -99,6 +99,13 @@ app.get("/hello", (req, res) => {
   res.end("<html><body>Hello <b>World</b></body></html>\n");
 });
 
+app.get("/u/:shortURL", (req, res) => {
+  let shortURL = req.params.shortURL
+  let longURL = urlDatabase[shortURL].url
+  res.redirect(longURL);
+});
+
+
 app.get("/urls", (req, res) => {
   const userId = req.cookies["user_id"];
   const userUrlDatabase = newUserDatabase(userId);
