@@ -1,7 +1,6 @@
 <h1>Tiny App</h1>
-<% console.log('username from server:'+username) %>
-<% if(username){ %>
-   <h1> <%= username %> </h1><form method ="POST" action ='/logout'><button type='submit'>logout</button></form>
+<% if(user){ %>
+   <h1> <%=user.email%> </h1><form method ="POST" action ='/logout'><button type='submit'>logout</button></form>
  <% }else{ %>
     <form action="/login" method="POST" style="margin:150px;">
       <label for="username">Login:</label>
