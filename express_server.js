@@ -2,11 +2,12 @@ var express = require("express");
 var app = express();
 var PORT = process.env.PORT || 8080; // default port 8080
 var cookieParser = require('cookie-parser')
+var bcrypt = require('bcrypt');
 
 var app = express()
 app.use(cookieParser())
 
-const bodyParser = require("body-parser");
+var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
 function generateRandomString() {
@@ -184,21 +185,18 @@ app.get("/login", (req,res) =>{
 app.post("/login", (req, res) =>{
   const email = req.body.email
   const password = req.body.password
-  console.log(email);
-  console.log(password);
   if (!email|| !password){
     res.send('Error 400, please enter email and password')
     return;
   }
-
   let user = getUserByEmail(email)
-
   if(!user){
     res.send('Error 403, username doesn\'t exist')
     return;
   }
-
-  if (user.password === password){
+    console.log(user.password)
+    console.log(password)
+  if (bcrypt.compareSync(password, user.password)){
     res.redirect("/urls")
   }else{
     res.send("Error 403, incorect password")
@@ -219,21 +217,26 @@ app.get("/register", (req, res) =>{
 })
 
 app.post("/register", (req, res) =>{
-  let password = req.body.password
-  let email = req.body.email
+  const password = req.body.password;
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  let email = req.body.email;
 
   if (!email || !password){
     res.send('Error 400, please enter email and password')
   } else if (getUserByEmail(email)){
     res.send('Error 400, email already exists')
   } else {
+
     let randomId = generateRandomString()
 
-    users[randomId] = {
+      users[randomId] = {
       id:randomId,
       email:req.body.email,
-      password:req.body.password
+      password:hashedPassword
     }
+
+    console.log(hashedPassword,'hashed password');
+
     res.cookie('user_id', randomId)
     res.redirect("/urls")
   }
