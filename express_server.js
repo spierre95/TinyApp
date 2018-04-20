@@ -3,9 +3,14 @@ var app = express();
 var PORT = process.env.PORT || 8080; // default port 8080
 var cookieParser = require('cookie-parser')
 var bcrypt = require('bcrypt');
-
-var app = express()
+var cookieSession = require('cookie-session')
+var app = express();
 app.use(cookieParser())
+app.use(cookieSession({name: 'session',
+  keys: ['dfgdgsdg'],
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}));
+
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -108,7 +113,7 @@ app.get("/u/:shortURL", (req, res) => {
 
 
 app.get("/urls", (req, res) => {
-  const userId = req.cookies["user_id"];
+  const userId = req.session["user_id"];
   const userUrlDatabase = newUserDatabase(userId);
   console.log(userUrlDatabase, "new user database");
   console.log(userId, "user Id")
@@ -122,7 +127,7 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-  const userId = req.cookies["user_id"];
+  const userId = req.session["user_id"];
   let templateVars = {
     user: users[userId]
   };
@@ -133,7 +138,7 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.get("/urls/:id", (req, res) => {
-  const userId = req.cookies["user_id"];
+  const userId = req.session["user_id"];
   let loggedIn = getUser(userId)
   let templateVars = {
     shortURL: req.params.id,
@@ -149,7 +154,7 @@ app.get("/urls/:id", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  const userId = req.cookies["user_id"]
+  const userId = req.session["user_id"]
   let shortURL = generateRandomString()
   urlDatabase[shortURL] = {
     url:req.body.longURL,
@@ -175,7 +180,7 @@ app.post("/urls/:id/update", (req, res) =>{
 })
 
 app.get("/login", (req,res) =>{
-  const userId = req.cookies["user_id"];
+  const userId = req.session["user_id"];
   let templateVars = {
     user: users[userId]
   };
@@ -204,12 +209,12 @@ app.post("/login", (req, res) =>{
 })
 
 app.post("/logout", (req, res) =>{
-  res.clearCookie("user_id");
+  req.session = null;
   res.redirect("/login")
 })
 
 app.get("/register", (req, res) =>{
-  const userId = req.cookies["user_id"];
+  const userId = req.session["user_id"];
   let templateVars = {
     user: users[userId]
   };
@@ -237,7 +242,7 @@ app.post("/register", (req, res) =>{
 
     console.log(hashedPassword,'hashed password');
 
-    res.cookie('user_id', randomId)
+    req.session.user_id = randomId
     res.redirect("/urls")
   }
 });
