@@ -6,7 +6,7 @@ Tiny App is a full stack web app built with node and express that allows user to
 
 !["Screenshot of the login page"](https://github.com/spierre95/TinyApp/blob/master/docs/login-page.png?raw=true)
 !["Screenshot of the create new urls page"](https://github.com/spierre95/TinyApp/blob/master/docs/new-url-page.png?raw=true)
-!["Screenshot of the main urls page"]("https://github.com/spierre95/TinyApp/blob/master/docs/urls-page.png?raw=true")
+!["Screenshot of the main urls page"](https://github.com/spierre95/TinyApp/blob/master/docs/urls-page.png?raw=true)
 
 ##Dependencies
 
