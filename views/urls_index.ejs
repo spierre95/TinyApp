@@ -7,16 +7,18 @@
     <% include ./partials/_header.ejs %>
 </header>
 <body>
-   <p><button><a href="/urls/new">New</a></button></p>
-   <ul>
+   <ol>
+   <!-- Displaying users urls -->
    <%Object.keys(urls)%>
     <%for (let url in userUrls){%>
     <li>
-        <%= userUrls[url].shortURL %> : <%= userUrls[url].url %>
+        <p> ShortURL: <a href ='http://localhost:8080/u/<%= userUrls[url].shortURL %>'><%= userUrls[url].shortURL %></a> <br> LongURL: <%= userUrls[url].url %></p>
+        <!-- Edit button  -->
         <button><a href = "/urls/<%=userUrls[url].shortURL%>">Edit</a></button>
+        <!-- delete button -->
         <form method="POST" action="/urls/<%=userUrls[url].shortURL%>/delete"><button type="submit" >Delete</button></form>
     </li>
     <%}%>
-  </ul>
+  </ol>
 </body>
 </html>

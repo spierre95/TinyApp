@@ -1,9 +1,10 @@
 <h1>Tiny App</h1>
-<% if(user){ %>
-   <h1> <%=user.email%> </h1><form method ="POST" action ='/logout'><button type='submit'>logout</button></form>
- <% }else{ %>
+<%if(user){%>
+<!-- if user is logged in displays users email and a logout button -->
+   <h1> Username: <%=user.email%> </h1><form method ="POST" action ='/logout'><button type='submit'>logout</button></form>
+  <p><button><a href="/urls/new">New</a></button></p>
+ <%}else{%>
+ <!--if user is not logged in displays register and login buttons-->
   <button><a href ='/register'>Register</a></button>
   <button><a href ='/login'>Login</a></button>
-
-<% } %>
-
+<%}%>

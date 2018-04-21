@@ -2,10 +2,11 @@
 <html>
 <body>
 <header>
-    <h1> Short Url: <%=shortURL%> </h1>
+    <h2> Old URL: <%=longURL%> </h2>
 </header>
+<!-- form to update shortened urls -->
 <form method="POST" action="/urls/<%=shortURL%>/update">
-<input id="update" type="text" name="update" placeholder = <%=longURL%> style="width: 300px">
+<input id="update" type="text" name="update" value="https://" style="width: 300px">
 <input type="submit" value="Update">
 </form>
 </body>
